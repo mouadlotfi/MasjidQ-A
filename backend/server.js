@@ -2,29 +2,36 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 const db = require('./db');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // Vite default port
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     credentials: true
 }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Trust proxy for session cookies in production (Railway uses a proxy)
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+}
+
 // Session configuration
 app.use(session({
-    secret: 'masjid-qa-secret-key-change-in-production',
+    secret: process.env.SESSION_SECRET || 'masjid-qa-secret-key-change-in-production',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set to true in production with HTTPS
+        secure: process.env.NODE_ENV === 'production', // true for HTTPS
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     }
 }));
 
@@ -37,22 +44,21 @@ app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/answers', answerRoutes);
 
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'Masjid Q&A API is running' });
 });
 
+// All other requests serve the frontend index.html (for SPA routing)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-    console.log('API endpoints available at:');
-    console.log('  - POST /api/auth/register');
-    console.log('  - POST /api/auth/login');
-    console.log('  - GET  /api/auth/me');
-    console.log('  - POST /api/auth/logout');
-    console.log('  - GET  /api/questions');
-    console.log('  - GET  /api/questions/:id');
-    console.log('  - POST /api/questions');
-    console.log('  - POST /api/answers');
-    console.log('  - PUT  /api/answers/:id/accept');
+    console.log(`Server running on port ${PORT}`);
 });
+
