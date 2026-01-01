@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 min-h-screen transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 px-6 py-3 rounded-lg font-semibold border-2 border-blue-600 dark:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 hover:scale-105 transition-all duration-300;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-red-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-white dark:bg-slate-800/50 dark:backdrop-blur-sm rounded-xl shadow-md dark:shadow-xl dark:shadow-blue-900/20 hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-blue-800/30 transition-all duration-300 p-6 border border-transparent dark:border-slate-700/50;
+  }
+
+  .card-hover {
+    @apply hover:scale-[1.02] hover:-translate-y-1;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900/50 transition-all duration-200 outline-none;
+  }
+
+  .badge-imam {
+    @apply bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-500 dark:to-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md;
+  }
+
+  .badge-parent {
+    @apply bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-500 dark:to-cyan-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md;
+  }
+
+  .badge-accepted {
+    @apply bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-500 dark:to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md;
+  }
+
+  .parallax-bg {
+    @apply absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 dark:from-blue-900 dark:via-purple-900 dark:to-pink-900;
+  }
+
+  .glass-effect {
+    @apply bg-white/10 dark:bg-slate-900/30 backdrop-blur-md border border-white/20 dark:border-slate-700/50;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+}
