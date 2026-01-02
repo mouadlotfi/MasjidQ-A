@@ -30,7 +30,7 @@ A full-stack web application for a Masjid Q&A/Forum where community members can 
 
 1. **Clone or navigate to the project directory**
 ```bash
-cd /home/astra/Desktop/masjid
+git clone https://github.com/defaltastra/MasjidQ-A/ && cd MasjidQ-A
 ```
 
 2. **Install backend dependencies**
